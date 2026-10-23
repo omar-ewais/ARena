@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARENA | Smart Student Guide</title>
+<style>
+:root {
+    --ink:#15213a;
+    --muted:#718096;
+    --blue:#4665f5;
+    --violet:#7957e8;
+    --line:#e8edf5;
+    --surface:#fff;
+    --bg:#f6f8fc;
+    --mint:#e9fbf5;
+    --shadow:0 18px 50px #1e2b4b0d
+}
+
+* {
+    box-sizing:border-box
+}
+body {
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:Inter,"Segoe UI",Tahoma,Arial,sans-serif;
+    min-height:100vh
+}
+button,input {
+    font:inherit
+}
+button {
+    cursor:pointer
+}
+.splash {
+    position:fixed;
+    inset:0;
+    z-index:99;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    animation:leave .5s ease 1.35s forwards
+}
+.brand {
+    font-size:clamp(3.6rem,12vw,6.4rem);
+    font-weight:900;
+    letter-spacing:5px;
+    background:linear-gradient(115deg,#4167f5,#8756df);
+    color:transparent;
+    background-clip:text;
+    animation:rise .7s ease both
+}
+.tag {
+    color:#6c7890;
+    letter-spacing:2px;
+    font-size:.95rem
+}
+@keyframes rise {
+    from {
+        opacity:0;
+        transform:translateY(15px) scale(.97)
+    }
+    to {
+        opacity:1;
+        transform:none
+    }
+}
+@keyframes leave {
+    to {
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none
+    }
+}
+.shell {
+    max-width:1160px;
+    margin:auto;
+    padding:24px
+}
+.topbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    margin-bottom:28px
+}
+.mini-brand {
+    font-weight:900;
+    font-size:1.35rem;
+    letter-spacing:2px;
+    color:var(--blue)
+}
+.mini-brand span {
+    display:block;
+    font-size:.68rem;
+    letter-spacing:0;
+    color:var(--muted);
+    font-weight:500
+}
+.status {
+    border:1px solid var(--line);
+    background:white;
+    border-radius:999px;
+    padding:9px 14px;
+    color:#66748b;
+    font-size:.83rem
+}
+.hero {
+    padding:28px 0 24px
+}
+.eyebrow {
+    color:var(--blue);
+    font-weight:800;
+    font-size:.8rem;
+    letter-spacing:1px
+}
+.hero h1 {
+    font-size:clamp(2rem,5vw,3.2rem);
+    line-height:1.12;
+    margin:12px 0
+}
+.hero p {
+    color:var(--muted);
+    line-height:1.8;
+    max-width:600px;
+    margin:0
+}
+.panel {
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:clamp(18px,4vw,30px);
+    box-shadow:var(--shadow);
+    margin-bottom:22px
+}
+.step-title {
+    font-size:1.05rem;
+    font-weight:800;
+    margin:0 0 5px
+}
+.sub {
+    color:var(--muted);
+    font-size:.9rem;
+    margin:0 0 18px;
+    line-height:1.6
+}
+.choices {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px
+}
+.choice {
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:18px;
+    text-align:right;
+    padding:20px;
+    transition:.2s;
+    color:var(--ink)
+}
+.choice:hover,.choice.active {
+    border-color:#8494ff;
+    box-shadow:0 8px 25px #4665f51a;
+    transform:translateY(-2px)
+}
+.choice.active {
+    background:#f4f6ff
+}
+.symbol {
+    width:48px;
+    height:48px;
+    display:grid;
+    place-items:center;
+    border-radius:15px;
+    background:#edf1ff;
+    color:var(--blue);
+    font-weight:900;
+    font-size:1.2rem;
+    margin-bottom:14px
+}
+.choice strong {
+    display:block;
+    font-size:1.08rem
+}
+.choice small {
+    display:block;
+    color:var(--muted);
+    margin-top:7px;
+    line-height:1.5
+}
+.levels {
+    display:flex;
+    gap:10px;
+    margin-top:15px
+}
+.level {
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:12px;
+    padding:11px 22px;
+    font-weight:700;
+    color:var(--muted)
+}
+.level.active {
+    background:var(--ink);
+    color:#fff;
+    border-color:var(--ink)
+}
+.primary {
+    background:linear-gradient(110deg,var(--blue),var(--violet));
+    color:#fff;
+    border:0;
+    border-radius:13px;
+    padding:13px 20px;
+    font-weight:800;
+    margin-top:20px;
+    box-shadow:0 8px 20px #4665f52a
+}
+.hidden {
+    display:none!important
+}
+.dashboard-head {
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap
+}
+.dashboard-head h2 {
+    margin:0 0 7px;
+    font-size:1.7rem
+}
+.dashboard-head p {
+    margin:0;
+    color:var(--muted)
+}
+.pill {
+    background:#eef1ff;
+    color:var(--blue);
+    padding:7px 12px;
+    border-radius:999px;
+    font-weight:800;
+    font-size:.82rem
+}
+.service-grid {
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:12px;
+    margin-top:24px
+}
+.service {
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:17px;
+    padding:17px 13px;
+    text-align:right;
+    min-height:130px;
+    transition:.2s
+}
+.service:hover,.service.active {
+    border-color:#8c9aff;
+    background:#f6f7ff
+}
+.service .ico {
+    font-size:1.45rem;
+    margin-bottom:13px
+}
+.service strong {
+    display:block;
+    font-size:.92rem
+}
+.service small {
+    display:block;
+    color:var(--muted);
+    margin-top:7px;
+    line-height:1.45
+}
+.content-area {
+    margin-top:20px
+}
+.content-area h3 {
+    margin-top:0
+}
+.schedule-img {
+    width:100%;
+    height:auto;
+    border:1px solid var(--line);
+    border-radius:14px;
+    display:block;
+    background:white
+}
+.image-actions {
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    margin:10px 0 16px;
+    flex-wrap:wrap
+}
+.link-button {
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:9px 12px;
+    background:white;
+    color:var(--ink);
+    text-decoration:none
+}
+.people-grid {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px
+}
+.person-list {
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px
+}
+.person {
+    padding:13px 0;
+    border-bottom:1px solid var(--line)
+}
+.person:last-child {
+    border-bottom:0
+}
+.person strong {
+    display:block
+}
+.person small {
+    color:var(--muted);
+    display:block;
+    margin-top:5px;
+    line-height:1.5
+}
+.groups {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:10px;
+    margin:16px 0
+}
+.group-btn {
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:12px;
+    padding:13px;
+    font-weight:800
+}
+.group-btn.active {
+    background:#17233d;
+    color:#fff
+}
+.note {
+    border-radius:14px;
+    background:#fff8e7;
+    border:1px solid #f4e4b5;
+    color:#795b19;
+    padding:14px;
+    line-height:1.7;
+    font-size:.9rem
+}
+.chat {
+    border:1px solid var(--line);
+    border-radius:17px;
+    overflow:hidden
+}
+.chat-head {
+    background:#f3f5ff;
+    padding:16px;
+    font-weight:800
+}
+.chat-messages {
+    padding:16px;
+    min-height:160px;
+    max-height:310px;
+    overflow:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px
+}
+.bubble {
+    max-width:88%;
+    padding:11px 14px;
+    border-radius:14px;
+    background:#f1f4fa;
+    line-height:1.7;
+    font-size:.92rem;
+    align-self:flex-start
+}
+.bubble.user {
+    background:#eaf0ff;
+    align-self:flex-end
+}
+.chat-form {
+    display:flex;
+    gap:8px;
+    padding:12px;
+    border-top:1px solid var(--line)
+}
+.chat-form input {
+    flex:1;
+    min-width:0;
+    border:1px solid var(--line);
+    border-radius:11px;
+    padding:12px;
+    outline-color:#8997ff
+}
+.chat-form button {
+    border:0;
+    border-radius:11px;
+    background:var(--blue);
+    color:white;
+    padding:0 17px;
+    font-weight:800
+}
+.quick-questions {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:12px 0
+}
+.quick {
+    background:white;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 11px;
+    font-size:.82rem;
+    color:#56627a
+}
+.footer {
+    text-align:center;
+    color:#9aa4b5;
+    font-size:.8rem;
+    padding:15px 0 30px
+}
+.back {
+    background:none;
+    border:0;
+    color:var(--blue);
+    font-weight:800;
+    padding:0
+}
+.section-top {
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    margin-bottom:14px
+}
+
+@media(max-width:800px) {
+    .service-grid {
+        grid-template-columns:repeat(2,minmax(0,1fr))
+    }
+    .service:last-child {
+        grid-column:span 2
+    }
+    .people-grid {
+        grid-template-columns:1fr
+    }
+    .shell {
+        padding:16px
+    }
+    .panel {
+        border-radius:19px
+    }
+    .hero {
+        padding-top:15px
+    }
+    .topbar {
+        margin-bottom:15px
+    }
+}
+@media(max-width:430px) {
+    .choices {
+        grid-template-columns:1fr
+    }
+    .groups {
+        grid-template-columns:repeat(2,1fr)
+    }
+    .service-grid {
+        grid-template-columns:1fr 1fr
+    }
+    .service {
+        min-height:112px
+    }
+    .brand {
+        letter-spacing:2px
+    }
+}
+</style>
+</head>
+<body>
+    <div class="splash" id="splash">
+        <div class="brand">ARENA</div>
+        <div class="tag">Smart Student Guide</div>
+    </div>
+    <div class="shell">
+        <header class="topbar">
+            <div class="mini-brand">ARENA <span>SMART STUDENT GUIDE</span></div>
+            <div class="status">Academic Assistant · Demo</div>
+        </header>
+        <section class="hero">
+            <div class="eyebrow">YOUR CAMPUS, SIMPLIFIED</div>
+            <h1>كل اللي تحتاجه في<br>مكان واحد.</h1>
+            <p>دليلك الأكاديمي للوصول إلى الجدول الدراسي، أعضاء هيئة التدريس، والمرشد الأكاديمي بسهولة.</p>
+        </section>
+        <section class="panel" id="selectionPanel">
+            <div class="step-title">01 — اختار برنامجك</div>
+            <p class="sub">حدد البرنامج الدراسي للمتابعة.</p>
+            <div class="choices">
+                <button class="choice active" data-program="AI">
+                    <div class="symbol">AI</div>
+                    <strong>Artificial Intelligence</strong>
+                    <small>الذكاء الاصطناعي</small>
+                </button>
+                <button class="choice" data-program="VR">
+                    <div class="symbol">VR</div>
+                    <strong>Virtual Reality</strong>
+                    <small>الواقع الافتراضي والمعزز</small>
+                </button>
+            </div>
+            <div class="step-title" style="margin-top:25px">02 — اختار المستوى</div>
+            <p class="sub">هنعرض البيانات الخاصة بالمستوى المختار فقط.</p>
+            <div class="levels">
+                <button class="level active" data-level="1">Level 1</button>
+                <button class="level" data-level="2">Level 2</button>
+            </div>
+            <button class="primary" id="openDashboard">افتح دليلك الأكاديمي ↗</button>
+        </section>
+        <section class="panel hidden" id="dashboard">
+            <div class="section-top">
+                <button class="back" id="changeSelection">← تغيير البرنامج / المستوى</button>
+                <span class="pill" id="selectedPill">AI · Level 1</span>
+            </div>
+            <div class="dashboard-head">
+                <div>
+                    <h2>أهلاً بيك في ARENA</h2>
+                    <p>اختار الخدمة اللي محتاجها.</p>
+                </div>
+                <span class="status">الفصل الدراسي الأول · 2026–2027</span>
+            </div>
+            <div class="service-grid">
+                <button class="service active" data-view="schedule">
+                    <div class="ico">▦</div>
+                    <strong>Class Schedule</strong>
+                    <small>صورة الجدول الدراسي</small>
+                </button>
+                <button class="service" data-view="classes">
+                    <div class="ico">◷</div>
+                    <strong>Lectures & Sections</strong>
+                    <small>المحاضرات والسكاشن</small>
+                </button>
+                <button class="service" data-view="advisor">
+                    <div class="ico">⌖</div>
+                    <strong>Academic Advisor</strong>
+                    <small>المرشد ومكان المكتب</small>
+                </button>
+                <button class="service" data-view="faculty">
+                    <div class="ico">♙</div>
+                    <strong>Faculty Members</strong>
+                    <small>الدكاترة والمعيدون</small>
+                </button>
+                <button class="service" data-view="chat">
+                    <div class="ico">✳</div>
+                    <strong>ARENA Chatbot</strong>
+                    <small>اسأل الدليل التجريبي</small>
+                </button>
+            </div>
+            <div class="content-area" id="contentArea"></div>
+        </section>
+        <div class="footer">ARENA · Smart Student Guide · Academic project demo</div>
+    </div>
+<script>
+let program = 'AI';
+let level = '1';
+let group = '1';
+let student = null;
+let currentView = 'schedule';
+
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+}[character]));
+
+$$('[data-program]').forEach((button) => button.addEventListener('click', () => {
+    program = button.dataset.program;
+    $$('[data-program]').forEach((item) => item.classList.toggle('active', item === button));
+}));
+
+$$('[data-level]').forEach((button) => button.addEventListener('click', () => {
+    level = button.dataset.level;
+    $$('[data-level]').forEach((item) => item.classList.toggle('active', item === button));
+}));
+
+$('#openDashboard').addEventListener('click', async () => {
+    const response = await fetch(`/api/student?program=${program}&level=${level}`);
+    student = await response.json();
+    $('#selectionPanel').classList.add('hidden');
+    $('#dashboard').classList.remove('hidden');
+    $('#selectedPill').textContent = `${program} · Level ${level}`;
+    currentView = 'schedule';
+    activateView('schedule');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+$('#changeSelection').addEventListener('click', () => {
+    $('#dashboard').classList.add('hidden');
+    $('#selectionPanel').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+$$('[data-view]').forEach((button) => button.addEventListener('click', () => activateView(button.dataset.view)));
+
+function activateView(view) {
+    currentView = view;
+    $$('[data-view]').forEach((button) => button.classList.toggle('active', button.dataset.view === view));
+    renderView();
+}
+
+function renderView() {
+    const content = $('#contentArea');
+    if (!student) return;
+
+    if (currentView === 'schedule') {
+        content.innerHTML = `<h3>الجدول الدراسي</h3><p class="sub">${program} · Level ${level} — صورة الجدول كما وردت في الملف المرفق.</p><div class="image-actions"><span class="status">Official timetable image</span><a class="link-button" href="${student.schedule}" target="_blank" rel="noopener">فتح الصورة بحجم كامل ↗</a></div><img class="schedule-img" src="${student.schedule}" alt="الجدول الدراسي لبرنامج ${program} المستوى ${level}">`;
+    } else if (currentView === 'advisor') {
+        content.innerHTML = `<h3>المرشد الأكاديمي</h3><div class="person-list"><div class="symbol">⌖</div><h2 style="margin:0 0 10px">${escapeHtml(student.advisor.name)}</h2><p class="sub">المرشد الأكاديمي لبرنامج ${program}</p><div class="person"><strong>موقع المكتب</strong><small>${escapeHtml(student.advisor.office)}</small></div></div>`;
+    } else if (currentView === 'faculty') {
+        const list = (people) => people.map((person) => `<div class="person"><strong>${escapeHtml(person.name)}</strong><small>${escapeHtml(person.courses)}</small></div>`).join('');
+        content.innerHTML = `<h3>أعضاء هيئة التدريس</h3><p class="sub">الأسماء والتخصصات وفق البيانات المتاحة للمشروع.</p><div class="people-grid"><div class="person-list"><h4>الدكاترة</h4>${list(student.doctors)}</div><div class="person-list"><h4>المعيدون</h4>${list(student.assistants)}</div></div>`;
+    } else if (currentView === 'classes') {
+        content.innerHTML = `<h3>المحاضرات والسكاشن</h3><p class="sub">اختار مجموعتك لعرض جدولها الرسمي. المحاضرات المشتركة تظهر في صورة الجدول الكامل.</p><div class="groups">${[1,2,3,4].map((number) => `<button class="group-btn ${String(number) === group ? 'active' : ''}" data-group="${number}">Group ${number}</button>`).join('')}</div><div class="note">المجموعة المحددة: <b>${group}</b><br>لضمان دقة المواعيد والقاعات، راجع صورة الجدول الرسمي أدناه. تفاصيل المواعيد لم تُحوَّل بعد إلى بيانات منفصلة، لذلك لن يعرض الموقع مواعيد غير مؤكدة.</div><div style="margin-top:16px"><img class="schedule-img" src="${student.schedule}" alt="الجدول الرسمي"></div>`;
+        $$('[data-group]').forEach((button) => button.addEventListener('click', () => {
+            group = button.dataset.group;
+            renderView();
+        }));
+    } else if (currentView === 'chat') {
+        content.innerHTML = `<h3>ARENA Chatbot</h3><p class="sub">مساعد تجريبي بإجابات محددة مسبقًا مرتبطة ببرنامجك ومستواك.</p><div class="chat"><div class="chat-head">✳ اسأل ARENA</div><div class="chat-messages" id="messages"><div class="bubble">أهلًا بيك! اسألني عن المرشد الأكاديمي، مكان المكتب، الجدول، الدكاترة، المعيدين أو السكاشن.</div></div><form class="chat-form" id="chatForm"><input id="chatInput" placeholder="اكتب سؤالك هنا..." autocomplete="off" required><button>إرسال</button></form></div><div class="quick-questions"><button class="quick" data-q="مين المرشد الأكاديمي؟">مين المرشد؟</button><button class="quick" data-q="مكتب المرشد فين؟">مكان المكتب</button><button class="quick" data-q="عايز الجدول الدراسي">الجدول الدراسي</button><button class="quick" data-q="مين الدكاترة عندي؟">الدكاترة</button><button class="quick" data-q="السكاشن والمجموعات">السكاشن</button></div>`;
+        $('#chatForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            sendChat($('#chatInput').value);
+        });
+        $$('[data-q]').forEach((button) => button.addEventListener('click', () => sendChat(button.dataset.q)));
+    }
+}
+
+async function sendChat(question) {
+    question = (question || '').trim();
+    if (!question) return;
+
+    const messages = $('#messages');
+    messages.insertAdjacentHTML('beforeend', `<div class="bubble user">${escapeHtml(question)}</div>`);
+    $('#chatInput').value = '';
+    const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, program, level })
+    });
+    const data = await response.json();
+    messages.insertAdjacentHTML('beforeend', `<div class="bubble">${escapeHtml(data.answer)}</div>`);
+    messages.scrollTop = messages.scrollHeight;
+}
+</script>
+</body>
+</html>
